@@ -1,13 +1,12 @@
 import matplotlib.pyplot as plt
 import random
-import numpy as np
+
 
 count = 0
 cor = []
 lista = {}
 peca = []
 soma = 0
-color = ['r','b','g','c','y']
 y_axis = []
 x_axis = []
 linha = []
@@ -23,7 +22,7 @@ def Lista(indices, items):
     for (indice, items) in zip(indices, item):
         if items != "0" and len(items) < 3:
             lista[indice] = int(items)
-            print(indice + " : " + items)
+#            print(indice + " : " + items)
     return lista
 
 def blocosmagicos(lista):
@@ -40,6 +39,11 @@ def blocosmagicos(lista):
         bloco[x] -= 1
     return x1, x2
 
+def equal(var1,var2):
+    if var1 == var2:
+        return True
+    else:
+        return False
 
 #Leitura da base de dados em .txt
 arq = open("lego.txt", "r")
@@ -48,25 +52,33 @@ firstLine = firstLine.split()
 #leitura do arquivo e armazena em uma lista
 for i,l in enumerate(arq):
     linha.append(l)
-#   print(i,"=>",l)
-while len(x_axis) < 16 or sum(x_axis) == 16:
-    soma=0
-    ale = aleatorio(len(linha)-1) # Encontra a cor de forma aleatoria e armazena em um vetor
-    print("=>",ale,"len",len(linha))
-    item = linha[ale].split()
-    print("ale:",ale,"item:",item)
-    cor.append(item[0])  # vetor que armazena as cores que forem encontradas
-    soma+=1
-    size = len(item)
-    bloco = Lista(firstLine, item) #Pra que serve a firstline?
-    a,l = blocosmagicos(bloco)
-#    print(":",a,l)
-    y_axis.append(a)
-    x_axis.append(l)
-print("teste :",a,l)
-print("X_AXIS",x_axis,"\n","Y_AXIS",y_axis)
-#print(soma)
-print(cor)
+
+
+#while sum(x_axis) <= 16 or len(x_axis) < 16:
+ale = aleatorio(len(linha)-1) # Encontra a cor de forma aleatoria e armazena em um vetor
+item = linha[ale].split()
+cor.append(item[0])  # vetor que armazena as cores que forem encontradas
+size = len(item)
+bloco = Lista(firstLine, item) #Pra que serve a firstline?
+a,l = blocosmagicos(bloco)
+print(a,l)
+x_axis.append(a)
+y_axis.append(l)
+y, x =  blocosmagicos(bloco)
+print("x::",x)
+print(x_axis[soma])
+if x_axis[soma] == x:
+    print("antes",y_axis)
+    y_axis[soma]+= y
+    print("depois",y_axis)
+else:
+
+soma+=1
+print("**"*5)
+print("Y_AXIS",y_axis,"\n","X_AXIS",x_axis)
+print("soma",soma)
+print("cor",cor)
+print("Peca",peca)
 
 #Grafico de Barras
 for i in range(len(x_axis)):
@@ -75,3 +87,5 @@ for i in range(len(x_axis)):
 plt.legend("")
 plt.show()
 arq.close()
+
+
